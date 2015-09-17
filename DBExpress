@@ -6,13 +6,12 @@ elif [[ "$1" = "build" ]]
 then
     echo building and starting
     make -C src/build
-    cp src/build/DBExpress ./FCGIDBExpress
 elif [[ "$1" = "start" ]]
 then
     echo Starting dropbears express - Normal
-    spawn-fcgi -p 8000 -n FCGIDBExpress
+    spawn-fcgi -p 8000 -n src/build/DBExpress
 elif [[ "$1" = "startThera" ]]
 then
     echo Starting dropbears express - Thera only
-    spawn-fcgi -p 8000 -n FCGIDBExpress NoSiggy
+    spawn-fcgi -p 8000 -n src/build/DBExpress NoSiggy
 fi

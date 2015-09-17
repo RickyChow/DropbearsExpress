@@ -12,19 +12,10 @@
 
 #include "SystemInfo.h"
 #include "Siggy.h"
+#include "Connection.h"
 
 #define AVOID_WEIGHT 100
 
-typedef std::set<std::string> ConnectionTypes;
-
-class Connection{
-public:
-    int from, to;
-    ConnectionTypes types;
-    Connection(int f, int t, ConnectionTypes tp);
-    bool operator<(const Connection& other) const;
-    bool operator==(const Connection& other) const;
-};
 
 class Connections{
 	std::map<int, std::map<int,std::set<std::string> > > connections;
@@ -33,7 +24,6 @@ class Connections{
 public:
 	Connections(const char*, SystemInfo*);
 	void clearAllConnections();
-	std::vector<int> getRoute(int, int, std::set<int> = std::set<int>());
 	std::vector<int> getRouteDijkstra(int, int, std::set<std::string> = std::set<std::string>(), std::set<int> = std::set<int>());
 	void addConnections(int, int, std::set<std::string>);
 	void loadConnections(const char*);
