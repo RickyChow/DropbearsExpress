@@ -15,6 +15,17 @@
 
 #define AVOID_WEIGHT 100
 
+typedef std::set<std::string> ConnectionTypes;
+
+class Connection{
+public:
+    int from, to;
+    ConnectionTypes types;
+    Connection(int f, int t, ConnectionTypes tp);
+    bool operator<(const Connection& other) const;
+    bool operator==(const Connection& other) const;
+};
+
 class Connections{
 	std::map<int, std::map<int,std::set<std::string> > > connections;
 	int calculateWeight(std::pair<int, std::set<std::string> >, std::set<std::string>);
