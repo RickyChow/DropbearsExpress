@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.6)
 
-SET(CMAKE_CXX_COMPILER "g++")
+#SET(CMAKE_CXX_COMPILER "g++")
 
 file(GLOB SOURCE router/*)
 file(GLOB HEADER includes/*.h)
