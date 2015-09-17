@@ -40,23 +40,21 @@ void FCGI(int argc, char* argv[])
 {
 	using namespace std;
 	int requestCount = 0;
-	std::string fName = "universeDataDx.db";
+	std::string fName = "/home/ricky/universeDataDx.db";
 
 	if (loadSiggy)
 		std::cout <<"Dropbears Express start\n";
 	else
 		std::cout <<"Dropbears express start - no siggy\n";
 
-	std::string programPath = argv[0];
-	std::string programDirectory = programPath.substr(0, programPath.find_last_of("/"));
-	std::string dbPath = programDirectory + "/" + fName;
+	
 	std::string start, finish;
 	std::set<std::string> avoidSet, ignoreSet;
 
 	Siggy s = Siggy();
-	SystemInfo info = SystemInfo(dbPath.c_str());
+	SystemInfo info = SystemInfo(fName.c_str());
 	info.updateWithSiggy(s);
-	Connections c = Connections(dbPath.c_str(), &info);
+	Connections c = Connections(fName.c_str(), &info);
 
 
 	std::cout << "Ready!\n";
@@ -89,7 +87,7 @@ void FCGI(int argc, char* argv[])
 			std::cout << "Update\n";
 			s.update();
 			std::cout << "Load connections\n";
-			c.loadConnections(dbPath.c_str());
+			c.loadConnections(fName.c_str());
 			std::cout << "Updatewithsiggy\n";
 			info.updateWithSiggy(s);
 			if (loadSiggy)

@@ -1,0 +1,18 @@
+#!/bin/bash
+if [ $# != 1 ]
+then
+    echo options: build, normal, theraOnly   
+elif [[ "$1" = "build" ]]
+then
+    echo building and starting
+    make -C src/build
+    cp src/build/DBExpress ./DBExpFCGI
+elif [[ "$1" = "normal" ]]
+then
+    echo Starting dropbears express - Normal
+    spawn-fcgi -p 8000 -n DBExpFCGI
+elif [[ "$1" = "theraOnly" ]]
+then
+    echo Starting dropbears express - Thera only
+    spawn-fcgi -p 8000 -n DBExpFCGI NoSiggy
+fi
