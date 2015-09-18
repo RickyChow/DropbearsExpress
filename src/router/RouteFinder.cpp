@@ -1,11 +1,13 @@
 #include "RouteFinder.h"
+#include <iostream>
 
-
-RouteFinder::RouteFinder(IConnectionLoader* loader)
-    :connectionLoader(loader),
-    vertexMap()
+RouteFinder::RouteFinder(std::vector<IConnectionLoader*>& loaders)
+   : vertexMap()
 {
-    connectionLoader->loadConnection(vertexMap);
+    for (int i=0; i<loaders.size(); ++i)
+    {
+        loaders[i]->loadConnection(vertexMap);
+    }
 }
 
 std::vector<int> RouteFinder::findRoute(int start, int finish, TypeSet avoid, std::set<int> ignore)

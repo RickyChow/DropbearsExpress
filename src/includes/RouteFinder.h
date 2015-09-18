@@ -26,11 +26,11 @@ public:
 class RouteFinder 
 {
 public:
-    RouteFinder(IConnectionLoader* loader);
+    RouteFinder(std::vector<IConnectionLoader*>& loaders);
     std::vector<int> findRoute(int start, int finish, std::set<std::string> avoid, std::set<int> ignore);
 private:
     VertexMap vertexMap; 
-    IConnectionLoader* connectionLoader;
+    std::vector<IConnectionLoader*> connectionLoaders;
     int calculateWeight(std::pair<int, std::set<std::string> > connection, std::set<std::string> avoidTags);
 };
 

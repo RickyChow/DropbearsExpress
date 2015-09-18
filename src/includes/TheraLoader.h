@@ -1,13 +1,15 @@
 #ifndef THERALOADER_H
 #define THERALOADER_H
 
-#include "IConnectionLoader.h"
+#include "SiggyLoader.h"
 
-class TheraLoader : public IConnectionLoader
+class TheraLoader : public SiggyLoader 
 {
 public:
-    void loadConnection(std::set<Vertex>& vertices);
-
+    TheraLoader(SystemInfo*, std::string);
+    void loadConnection(VertexMap& vertices);
+private:
+    std::string loadTheraRequest();
 };
 
 #endif

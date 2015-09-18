@@ -29,16 +29,11 @@ std::string Siggy::loadNovaRequest()
 	ss << "Host: siggy.borkedlabs.com\r\n";
 	ss << "Connection: keep-alive\r\n";
 	ss << "Accept: application/json, text/javascript, */*; \r\n";
-	//ss << "Origin: https://siggy.borkedlabs.com\r\n";
 	ss << "Content-Length: " <<messageBody.size() << "\r\n";
 	ss << "Content-Encoding: \r\n";
 	ss << "Content-Type: application/x-www-form-urlencoded; charset=UTF-8\r\n";
-	//ss << "Cookie: sessionID=909b6662c7d6f1d58923efe961576cdd9f11b23f%7E26b3092e460fc6c822f8252d8f1acd97; PHPSESSID=6oblogvcqp5ecm2roqc9pfts14; userID=91c9a389486d81cd193f3446f199ce1872b77a56%7E17772; passHash=0ba8ca40f90bd7bb0b46142e4e32ad210a4274bf%7E3f1c2f9824d2ee4bbe52b1b11d376fb29af6ad50bd515fe536b30782dde9fbd6;\r\n";
 	ss << "Cookie: userID=d78ea4a2d7b9f4fc313984472276a4b418a080bf%7E17772; passHash=38a86601e3dfb720a6a5487fd30270fa0663a8c2%7E3f1c2f9824d2ee4bbe52b1b11d376fb29af6ad50bd515fe536b30782dde9fbd6;\r\n";
-	//ss << "Cookie: userID=dff5423eabcf81438688b6e38f4a7e07d93ddf3e%7E17772; passHash=2f3d2c36c051322bef4671b3c6ea963e5235f715%7E3f1c2f9824d2ee4bbe52b1b11d376fb29af6ad50bd515fe536b30782dde9fbd6;\r\n";
 	ss << "User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.76 Safari/537.36\r\n";
-	//ss << "X-Requested-With: XMLHttpRequest\r\n";
-	//ss << "Cache-Control: no-cache\r\n";
 	ss << "\r\n";
 	ss << messageBody;
 

@@ -8,6 +8,10 @@
 #include "Printing.h"
 #include "Misc.h"
 #include "ErrorHandler.h"
+#include "RouteFinder.h"
+#include "DBLoader.h"
+#include "TheraLoader.h"
+#include "NovaLoader.h"
 
 #include <fcgio.h>
 #include <algorithm>
@@ -52,6 +56,19 @@ void FCGI(int argc, char* argv[])
 	info.updateWithSiggy(s);
 	Connections c = Connections(fName.c_str(), &info);
 
+    cout << "New code\n";
+    DBLoader dbLoader(fName, &info);
+    TheraLoader theraLoader(&info,std::string());
+    NovaLoader novaLoader(&info,std::string());
+ 
+    cout << "Adding loaders to vector\n";
+    vector<IConnectionLoader*> loaders;
+    loaders.push_back(&dbLoader);
+    loaders.push_back(&theraLoader);
+    loaders.push_back(&novaLoader);
+    cout << "Initialising routefinder \n";
+    RouteFinder routeFinder = RouteFinder(loaders);
+
 	cout << "Ready!\n";
 
     FCGX_Request request;
@@ -91,7 +108,8 @@ void FCGI(int argc, char* argv[])
 			c.loadTheraConnections(s);
 			cout << "FINISH LOADING\n\n";
 
-	        path = c.getRouteDijkstra(info.getSID(start), info.getSID(finish), avoidSet, set<int>());
+	        //path = c.getRouteDijkstra(info.getSID(start), info.getSID(finish), avoidSet, set<int>());
+            path = routeFinder.findRoute(info.getSID(start), info.getSID(finish), avoidSet, set<int>());
         	if (info.getSID(start) == -1 || info.getSID(finish) == -1)
         	{
         		std::cout << "Invalid system name" << std::endl;
