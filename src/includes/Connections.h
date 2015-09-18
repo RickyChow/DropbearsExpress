@@ -12,7 +12,6 @@
 
 #include "SystemInfo.h"
 #include "Siggy.h"
-#include "Connection.h"
 
 #define AVOID_WEIGHT 100
 

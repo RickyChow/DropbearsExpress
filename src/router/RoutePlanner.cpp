@@ -60,6 +60,7 @@ void FCGI(int argc, char* argv[])
 
     while (FCGX_Accept_r(&request) == 0)
     {
+        std::vector<int> path(0);
     	start = "";
     	finish = "";
     	avoidSet.clear();
@@ -89,6 +90,13 @@ void FCGI(int argc, char* argv[])
 			cout << "loadtheraconnections\n";
 			c.loadTheraConnections(s);
 			cout << "FINISH LOADING\n\n";
+
+	        path = c.getRouteDijkstra(info.getSID(start), info.getSID(finish), avoidSet, set<int>());
+        	if (info.getSID(start) == -1 || info.getSID(finish) == -1)
+        	{
+        		std::cout << "Invalid system name" << std::endl;
+        		continue;
+        	}
         }else
         	cout << "Invalid inputs recieved\n\n";
 
@@ -108,7 +116,7 @@ void FCGI(int argc, char* argv[])
         printHead();
 
         printForm();
-        printRoute(c, info, start, finish, avoidSet, set<string>());
+        printRoute(c, info, path);
         cout << "</div>";
 
         FCGX_Finish_r(&request);

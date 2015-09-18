@@ -112,71 +112,18 @@ void Connections::loadTheraConnections(Siggy sData)
 	}
 }
 
-std::vector<int> Connections::getRoute(int start, int finish, std::set<int> ignore)
+std::vector<int> Connections::getRouteDijkstra(int start, int finish, 
+        std::set<std::string> avoid,  std::set<int> ignore)
 {
+    typedef std::pair<int,std::pair<int,int> > QElement;
+
 	std::vector<int> path;
-	std::queue<int> q;
-	std::map<int, int> visited; //Contains <system visited, where we came from to get to system visited>
 
-	for (std::set<int>::iterator i = ignore.begin(); i != ignore.end(); i++)
-	{
-		visited.insert(std::make_pair(*i, *i));
-	}
+    //Reverse priority queue for pair<distance, <systemID,SystemFrom>>
+	std::priority_queue<QElement,std::vector<QElement>, std::greater<QElement> > q;
 
-	if (start==finish)
-	{
-		path.push_back(start);
-		return path;
-	}
-
-	q.push(start);
-	while(!q.empty())
-	{
-		//Get the set of connections:
-		std::map<int, std::set<std::string> > destinations_set = connections.find(q.front())->second;
-
-		//Iterate through all the connections from q.front(), (*i) is the destination
-		for (std::map<int,  std::set<std::string> >::iterator i = destinations_set.begin(); i != destinations_set.end(); i++)
-		{
-			//Insert the system to the visited list with the system we came from if we haven't been here before
-			if (visited.insert(std::make_pair(i->first, q.front())).second)
-			{
-				q.push(i->first);
-			}
-			if (i->first == finish)
-			{
-				path.push_back(i->first);
-				do
-				{
-					path.push_back(visited.find(path.back())->second);
-				}while(path.back() != start);
-
-				std::reverse(path.begin(), path.end());
-				goto finish;
-			}
-		}
-		q.pop();
-	}
-
-	//Try getting rid of the ignored systems
-	if (ignore.empty())
-		return std::vector<int>(0);
-	else
-		return getRoute(start, finish);
-
-finish:
-	return path;
-
-}
-
-std::vector<int> Connections::getRouteDijkstra(int start, int finish, std::set<std::string> avoid,  std::set<int> ignore)
-{
-	std::vector<int> path;
-	std::priority_queue<std::pair<int,std::pair<int,int> >, std::vector<std::pair<int,std::pair<int,int> > >,
-			std::greater<std::pair<int,std::pair<int,int> > > > q; //Reverse priority queue for pair<distance, <systemID,SystemFrom>>
-	std::map<int, int> visited; //Contains <system visited, where we came from to get to system visited>
-
-
+    //Contains <system visited, where we came from to get to system visited>
+	std::map<int, int> visited; 
 
 	q.push(std::make_pair(0, std::make_pair(start,start)));
 	
@@ -187,7 +134,8 @@ std::vector<int> Connections::getRouteDijkstra(int start, int finish, std::set<s
 	}
 	while(!q.empty())
 	{
-		//Keep popping stuff from the queue if we've been to the next point already, Otherwise add it to the visited set
+		//Keep popping stuff from the queue if we've been to the next point already
+        //, Otherwise add it to the visited set
 		while (!visited.insert(std::make_pair(q.top().second.first, q.top().second.second)).second)
 		{
 			q.pop();
@@ -232,7 +180,7 @@ int Connections::calculateWeight(std::pair<int, std::set<std::string> > connecti
 	{
 		if (connection.second.find(*i) != connection.second.end())
 		{
-			//If we want to avoid frigate holes, chances are we cant fit through there so make it weigh shitloads
+			//If we want to avoid frigate holes, chances are we cant fit through there so make it weigh lots
 			if (*i == "Frigate")
 				return AVOID_WEIGHT * AVOID_WEIGHT;
 			else

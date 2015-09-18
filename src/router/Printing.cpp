@@ -1,24 +1,8 @@
 #include "Printing.h"
 
 
-int printRoute(Connections& c, SystemInfo& info, std::string start, std::string finish, std::set<std::string> avoidSet, std::set<std::string> ignore)
+int printRoute(Connections& c, SystemInfo& info, std::vector<int> path)
 {
-
-	std::set<int> ignore_int;
-
-	if (info.getSID(start) == -1 || info.getSID(finish) == -1)
-	{
-		std::cout << "Invalid system name" << std::endl;
-		return -1;
-	}
-
-	for (std::set<std::string>::iterator i = ignore.begin(); i!=ignore.end(); i++)
-	{
-		ignore_int.insert(info.getSID(*i));
-	}
-
-
-	std::vector<int> path = c.getRouteDijkstra(info.getSID(start), info.getSID(finish), avoidSet, ignore_int);
 
 	if (path.empty())
 	{
