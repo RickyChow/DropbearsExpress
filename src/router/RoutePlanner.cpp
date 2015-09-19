@@ -3,15 +3,15 @@
 #define SQLITE_MAX_COLUMN 20000
 #define FCGI_MODE
 
-#include "Connections.h"
-#include "SystemInfo.h"
-#include "Printing.h"
-#include "Misc.h"
-#include "ErrorHandler.h"
-#include "RouteFinder.h"
-#include "DBLoader.h"
-#include "TheraLoader.h"
-#include "NovaLoader.h"
+#include "utils/Connections.h"
+#include "utils/SystemInfo.h"
+#include "utils/Printing.h"
+#include "utils/Misc.h"
+#include "utils/ErrorHandler.h"
+#include "router/RouteFinder.h"
+#include "loaders/DBLoader.h"
+#include "loaders/TheraLoader.h"
+#include "loaders/NovaLoader.h"
 
 #include <fcgio.h>
 #include <algorithm>
