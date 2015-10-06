@@ -6,11 +6,15 @@
 #include <vector>
 #include <queue>
 #include <algorithm>
+#include <iostream>
 
+#define BASE_WEIGHT 1
 #define AVOID_WEIGHT 100
 
 typedef std::pair<int,std::pair<int,int> > QElement;
-typedef	std::priority_queue<QElement,std::vector<QElement>, std::greater<QElement> > RouteQ;
+typedef	std::priority_queue<QElement,
+        std::vector<QElement>,
+        std::greater<QElement> > RouteQ;
 
 class RouteQueue : public RouteQ
 {
@@ -30,8 +34,13 @@ public:
     std::vector<int> findRoute(int start, int finish, std::set<std::string> avoid, std::set<int> ignore);
 private:
     VertexMap vertexMap; 
+	std::map<int, int> visited; 
+    TypeSet avoid;
+    
+    void addNeighbours(RouteQueue& q, AdjacentsMap& destinations_set, int currSys);
     std::vector<IConnectionLoader*> connectionLoaders;
     int calculateWeight(std::pair<int, std::set<std::string> > connection, std::set<std::string> avoidTags);
+    std::vector<int> getPath(int start, int finish);
 };
 
 
