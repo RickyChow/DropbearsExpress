@@ -9,7 +9,8 @@ RouteFinder::RouteFinder(std::vector<IConnectionLoader*>& loaders)
 
 //Finds the best route from start to finish in vertexMap while avoiding
 //connections type defined in avoid
-std::vector<int> RouteFinder::findRoute(int start, int finish, TypeSet avoid, std::set<int> ignore)
+std::vector<int> RouteFinder::findRoute(
+        int start, int finish, TypeSet& avoid, std::set<int> ignore)
 {
     //Reverse priority queue for pair<distance, <systemID,SystemFrom>>
 	RouteQueue q;
@@ -24,8 +25,8 @@ std::vector<int> RouteFinder::findRoute(int start, int finish, TypeSet avoid, st
     //The queue contains systems to visit in order of closeness to start
 	while(!q.empty())
 	{
-		//Keep popping stuff from the queue if we've been to the next point already
-        //, Otherwise add it to the visited set
+		//Keep popping stuff from the queue if we've been to the next 
+        //point already, Otherwise add it to the visited set
 		while (!visited.insert(std::make_pair(q.getNextSystem(), q.getNextFromSystem())).second)
 		{
 			q.pop();
@@ -55,7 +56,8 @@ std::vector<int> RouteFinder::findRoute(int start, int finish, TypeSet avoid, st
 }
 
 //Adds neighbours of the current system into the route queue
-void RouteFinder::addNeighbours(RouteQueue& q, AdjacentsMap& destinations_set, int currSys)
+void RouteFinder::addNeighbours(
+        RouteQueue& q, AdjacentsMap& destinations_set, int currSys)
 {
 	//Iterate through all connected systems
     AdjacentsMap::iterator i;
@@ -64,8 +66,7 @@ void RouteFinder::addNeighbours(RouteQueue& q, AdjacentsMap& destinations_set, i
         int nextSys = i->first;
 		if (visited.find(nextSys) != visited.end())
 			continue;
-		//List system as visited and point to the location we came from
-		int cWeight = calculateWeight(*i, avoid); //Weight based on connection type
+		int cWeight = calculateWeight(*i, avoid); 
         q.insertNext(q.getNextDistance() + cWeight, nextSys, currSys); 
 	}
 }
@@ -87,7 +88,7 @@ std::vector<int> RouteFinder::getPath(int start, int finish)
 }
 
 //Works out the weight of the current connection based on the input tags
-int RouteFinder::calculateWeight(std::pair<int, TypeSet> connection, TypeSet avoidTags)
+int RouteFinder::calculateWeight(std::pair<int, TypeSet> connection, TypeSet& avoidTags)
 {
     TypeSet::iterator i;
 	for (i = avoidTags.begin(); i != avoidTags.end(); i++)
