@@ -14,4 +14,9 @@ elif [[ "$1" = "startThera" ]]
 then
     echo Starting dropbears express - Thera only
     spawn-fcgi -p 8000 -n src/build/DBExpress NoSiggy
+elif [[ "$1" = "test" ]]
+then
+    echo Running tests
+    make -C src/build
+    ./src/build/DBExpressTest --report_format=HRF --report_level=detailed --show_progress=yes
 fi

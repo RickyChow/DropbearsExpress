@@ -27,7 +27,7 @@ protected:
     }
 };
 
-std::vector<IConnectionLoader*> getLoaders()
+std::vector<IConnectionLoader*> getSimpleLoaders()
 {
     MockLoader loader;
     std::vector<IConnectionLoader*> loaders;
@@ -35,9 +35,11 @@ std::vector<IConnectionLoader*> getLoaders()
     return loaders;
 }  
 
+BOOST_AUTO_TEST_SUITE( Route_finder_tests )
+
 BOOST_AUTO_TEST_CASE( SimpleRoute )
 {
-    std::vector<IConnectionLoader*> loaders = getLoaders();
+    std::vector<IConnectionLoader*> loaders = getSimpleLoaders();
     RouteFinder routeFinder(loaders);
 
     std::vector<int> out = routeFinder.findRoute(0,1);
@@ -49,7 +51,7 @@ BOOST_AUTO_TEST_CASE( SimpleRoute )
 
 BOOST_AUTO_TEST_CASE( LongerRoute )
 {
-    std::vector<IConnectionLoader*> loaders = getLoaders();
+    std::vector<IConnectionLoader*> loaders = getSimpleLoaders();
     RouteFinder routeFinder(loaders);
 
     std::vector<int> out = routeFinder.findRoute(0,3);
@@ -63,7 +65,7 @@ BOOST_AUTO_TEST_CASE( LongerRoute )
 
 BOOST_AUTO_TEST_CASE( NoRoute )
 {
-    std::vector<IConnectionLoader*> loaders = getLoaders();
+    std::vector<IConnectionLoader*> loaders = getSimpleLoaders();
     RouteFinder routeFinder(loaders);
 
     std::vector<int> out = routeFinder.findRoute(0,23);
@@ -73,7 +75,7 @@ BOOST_AUTO_TEST_CASE( NoRoute )
 
 BOOST_AUTO_TEST_CASE( StartIsFinish )
 {
-    std::vector<IConnectionLoader*> loaders = getLoaders();
+    std::vector<IConnectionLoader*> loaders = getSimpleLoaders();
     RouteFinder routeFinder(loaders);
 
     std::vector<int> out = routeFinder.findRoute(2,2);
@@ -81,3 +83,21 @@ BOOST_AUTO_TEST_CASE( StartIsFinish )
     BOOST_CHECK_EQUAL(1, out.size());
     BOOST_CHECK_EQUAL(2, out[0]);
 }   
+
+BOOST_AUTO_TEST_CASE( LongishRoute )
+{
+    std::vector<IConnectionLoader*> loaders = getSimpleLoaders();
+    RouteFinder routeFinder(loaders);
+
+    std::vector<int> out = routeFinder.findRoute(4,3);
+
+    BOOST_CHECK_EQUAL(5, out.size());
+    BOOST_CHECK_EQUAL(4, out[0]);
+    BOOST_CHECK_EQUAL(0, out[1]);
+    BOOST_CHECK_EQUAL(1, out[2]);
+    BOOST_CHECK_EQUAL(2, out[3]);
+    BOOST_CHECK_EQUAL(3, out[4]);
+}
+
+BOOST_AUTO_TEST_SUITE_END()
+
