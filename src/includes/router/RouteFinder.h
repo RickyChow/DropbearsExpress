@@ -19,7 +19,9 @@
 //inheriting the IConnectionLoader interface.
 class RouteFinder 
 {
+
 public:
+
     //Initialise route finder with a vector of loaders:
     //loaders will populate the vertex map with 
     //up-to-date map info
@@ -27,7 +29,12 @@ public:
 
     //Findroute will find the shortest path between start
     //and finish based on the vertex map. 
-    std::vector<int> findRoute(int start, int finish, TypeSet& avoid, std::set<int> ignore);
+    std::vector<int> findRoute(int start,
+                               int finish,
+                               TypeSet& avoid,
+                               std::set<int> ignore);
+
+    //Calls findroute with no avoid and no ignored systems
     std::vector<int> findRoute(int start, int finish);
 
 private:
@@ -38,7 +45,9 @@ private:
     
     //Adds neighbours of the curr sys into the queue
     //neighbours are contained in destination set
-    void addNeighbours(RouteQueue& q, AdjacentsMap& destinations_set, int currSys);
+    void addNeighbours(RouteQueue& q,
+                       AdjacentsMap& destinations_set,
+                       int currSys);
 
     //Returns the weight of the connection given the avoid tags
     int calculateWeight(std::pair<int, TypeSet> connection, TypeSet& avoidTags);
