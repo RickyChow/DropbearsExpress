@@ -2,7 +2,8 @@
 #define BOOST_TEST_MODULE MainTest
 #include <boost/test/unit_test.hpp>
 
-BOOST_AUTO_TEST_CASE( my_test)
+BOOST_AUTO_TEST_CASE( BoostTestSanityCheck )
 {
-    BOOST_CHECK(2==2);
+    BOOST_CHECK(true);
 }
+

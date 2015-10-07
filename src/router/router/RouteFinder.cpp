@@ -7,6 +7,14 @@ RouteFinder::RouteFinder(std::vector<IConnectionLoader*>& loaders)
         loaders[i]->loadConnection(vertexMap);
 }
 
+std::vector<int> RouteFinder::findRoute(int start, int finish)
+{
+    TypeSet avoid = TypeSet();
+    std::set<int> ignore = std::set<int>();
+    
+    return findRoute(start, finish, avoid, ignore);
+}
+
 //Finds the best route from start to finish in vertexMap while avoiding
 //connections type defined in avoid
 std::vector<int> RouteFinder::findRoute(

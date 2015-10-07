@@ -1,7 +1,16 @@
 #include "loaders/IConnectionLoader.h"
 
-void IConnectionLoader::addConnection(VertexMap& vertices, SystemInfo* info,
-                                     int from, int to, TypeSet tags)
+void IConnectionLoader::addConnection(
+        VertexMap& vertices, SystemTypeGetter* info,
+        int from, int to)
+{
+    TypeSet tags = TypeSet();
+    addConnection(vertices, info, from, to, tags);
+}
+
+void IConnectionLoader::addConnection(
+        VertexMap& vertices, SystemTypeGetter* info,
+        int from, int to, TypeSet tags)
 {
 	TypeSet toType, fromType;
 

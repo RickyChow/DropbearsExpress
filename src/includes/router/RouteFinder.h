@@ -28,6 +28,7 @@ public:
     //Findroute will find the shortest path between start
     //and finish based on the vertex map. 
     std::vector<int> findRoute(int start, int finish, TypeSet& avoid, std::set<int> ignore);
+    std::vector<int> findRoute(int start, int finish);
 
 private:
     std::vector<IConnectionLoader*> connectionLoaders;

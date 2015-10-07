@@ -10,6 +10,7 @@
 
 #include "utils/Misc.h"
 #include "utils/Siggy.h"
+#include "utils/SystemTypeGetter.h"
 
 struct System{
 	int sID;
@@ -19,7 +20,7 @@ struct System{
 	std::string nickname;
 };
 
-class SystemInfo
+class SystemInfo : public SystemTypeGetter
 {
 	std::map<std::string, int>sID;
 	std::map<int, System>systems;

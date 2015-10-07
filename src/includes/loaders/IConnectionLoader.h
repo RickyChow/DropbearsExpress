@@ -10,7 +10,9 @@ class IConnectionLoader
 public:
     virtual void loadConnection(VertexMap&)=0;
 protected:
-    void addConnection(VertexMap& vertices, SystemInfo* info,
+    void addConnection(VertexMap& vertices, SystemTypeGetter* info,
+                                     int from, int to);
+    void addConnection(VertexMap& vertices, SystemTypeGetter* info,
                                      int from, int to, TypeSet tags);
 };
 
