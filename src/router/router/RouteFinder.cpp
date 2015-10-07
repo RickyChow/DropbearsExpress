@@ -28,22 +28,21 @@ std::vector<int> RouteFinder::findRoute(
     visited.clear();
 
     q.insertNext(0,start,start);
-	
-	if (start==finish)
+    if (start==finish)
         return std::vector<int>(1, start);
 
-	while(!q.empty())
-	{
+    while(!q.empty())
+    {
         //Keep popping stuff from the queue if we've been to the next 
         //point already, Otherwise add it to the visited set
-		while (!visited.insert(std::make_pair(q.getNextSystem(),
+        while (!visited.insert(std::make_pair(q.getNextSystem(),
                                               q.getNextFromSystem())).second)
-		{
+        {
             q.pop();
             //We've exhausted the queue, destination non reachable
-			if (q.empty())
-				return std::vector<int>(0);
-		}
+            if (q.empty())
+                return std::vector<int>(0);
+        }
 
         int currSys = q.getNextSystem();
         int fromSys = q.getNextFromSystem();
@@ -87,14 +86,14 @@ void RouteFinder::addNeighbours(RouteQueue& q,
 std::vector<int> RouteFinder::getPath(int start, int finish)
 {
     std::vector<int> path;
-	path.push_back(finish);
-	do
-	{
+    path.push_back(finish);
+    do
+    {
         //Use the second value of visited pair to find the next system
-		path.push_back(visited.find(path.back())->second);
-	} while (path.back() != start);
+        path.push_back(visited.find(path.back())->second);
+    } while (path.back() != start);
 
-	std::reverse(path.begin(), path.end());
+    std::reverse(path.begin(), path.end());
     return path;
 }
 
@@ -104,18 +103,18 @@ int RouteFinder::calculateWeight(std::pair<int,
                                  TypeSet& avoidTags)
 {
     TypeSet::iterator i;
-	for (i = avoidTags.begin(); i != avoidTags.end(); i++)
-	{
-		if (connection.second.find(*i) != connection.second.end())
-		{
+    for (i = avoidTags.begin(); i != avoidTags.end(); i++)
+    {
+        if (connection.second.find(*i) != connection.second.end())
+        {
             //If we want to avoid frigate holes, chances are we cant fit
             //through there so make it weigh lots
-			if (*i == "Frigate")
-				return AVOID_WEIGHT * AVOID_WEIGHT;
-			else
-				return AVOID_WEIGHT;
-		}
-	}
-	
-	return BASE_WEIGHT;
+            if (*i == "Frigate")
+                return AVOID_WEIGHT * AVOID_WEIGHT;
+            else
+                return AVOID_WEIGHT;
+        }
+    }
+    
+    return BASE_WEIGHT;
 }
