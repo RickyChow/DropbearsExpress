@@ -26,3 +26,9 @@
 *.exe
 *.out
 *.app
+
+# swp files
+*.swp
+
+#build directory
+src/build/
