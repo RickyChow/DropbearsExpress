@@ -24,7 +24,7 @@ std::vector<int> RouteFinder::findRoute(
     //Reverse priority queue for pair<distance, <systemID,SystemFrom>>
     //The top of the queue will always contain the closest system in the
     //queue
-	RouteQueue q;
+    RouteQueue q;
     visited.clear();
 
     q.insertNext(0,start,start);
@@ -34,12 +34,12 @@ std::vector<int> RouteFinder::findRoute(
 
 	while(!q.empty())
 	{
-		//Keep popping stuff from the queue if we've been to the next 
+        //Keep popping stuff from the queue if we've been to the next 
         //point already, Otherwise add it to the visited set
 		while (!visited.insert(std::make_pair(q.getNextSystem(),
                                               q.getNextFromSystem())).second)
 		{
-			q.pop();
+            q.pop();
             //We've exhausted the queue, destination non reachable
 			if (q.empty())
 				return std::vector<int>(0);
@@ -49,19 +49,19 @@ std::vector<int> RouteFinder::findRoute(
         int fromSys = q.getNextFromSystem();
 
         //We've found the destination
-		if (currSys == finish)
-		    return getPath(start, finish);
-		else
+        if (currSys == finish)
+            return getPath(start, finish);
+        else
         {
-		    //Get the set of destinations from the current point
+            //Get the set of destinations from the current point
             AdjacentsMap destinations_set = vertexMap.find(currSys)->second.tos;
             addNeighbours(q, destinations_set, currSys);
-		    q.pop();
+            q.pop();
         }
-	}	
+    }	
 
     //Destination was never reached: return empty path
-	return std::vector<int>(0);
+    return std::vector<int>(0);
 
 }
 
@@ -70,16 +70,16 @@ void RouteFinder::addNeighbours(RouteQueue& q,
                                 AdjacentsMap& destinations_set,
                                 int currSys)
 {
-	//Iterate through all connected systems
+    //Iterate through all connected systems
     AdjacentsMap::iterator i;
-	for (i = destinations_set.begin(); i != destinations_set.end(); i++)
-	{
+    for (i = destinations_set.begin(); i != destinations_set.end(); i++)
+    {
         int nextSys = i->first;
-		if (visited.find(nextSys) != visited.end())
-			continue;
-		int cWeight = calculateWeight(*i, avoid); 
+        if (visited.find(nextSys) != visited.end())
+            continue;
+        int cWeight = calculateWeight(*i, avoid); 
         q.insertNext(q.getNextDistance() + cWeight, nextSys, currSys); 
-	}
+    }
 }
 
 //Gets path from visited set. Function starts from the finish and backtracks
@@ -108,7 +108,7 @@ int RouteFinder::calculateWeight(std::pair<int,
 	{
 		if (connection.second.find(*i) != connection.second.end())
 		{
-			//If we want to avoid frigate holes, chances are we cant fit
+            //If we want to avoid frigate holes, chances are we cant fit
             //through there so make it weigh lots
 			if (*i == "Frigate")
 				return AVOID_WEIGHT * AVOID_WEIGHT;
